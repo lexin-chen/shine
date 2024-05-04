@@ -152,18 +152,19 @@ def gen_trajs(data, sampling='diversity', sampling_fraction=0.2, frame_cutoff=50
             trajs[i] = frames
     return trajs
 
-def shine(trajs, linkage='ward', metric='intra'):
+def shine(trajs, linkag='ward', metric='intra'):
     """Performs the clustering between the trajectories"""
     distances = gen_msdmatrix(trajs, metric=metric)
     linmat = squareform(distances, force='no', checks=True)
     np.save('linmat.npy', linmat)
-    link = linkage(linmat, linkage)
+    link = linkage(linmat, linkag)
     return link
 
-def cluster_postprocess(link, maxclusts=2, dendrogram=True):
+def cluster_postprocess(link, maxclusts=2, dendro=True):
     """Post-processing the SHINE clustering"""
     clusters = fcluster(link, t=maxclusts, criterion='maxclust')
-    dendrogram(link)
-    if dendrogram:
-        plt.savefig('dendrogram.png')
+    dendrogram(link, no_labels=True)
+
+    if dendro:
+        plt.savefig('dendrogram_test.png')
     return clusters
