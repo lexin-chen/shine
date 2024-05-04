@@ -12,6 +12,9 @@ from cycler import cycler
 # Define a color cycle that starts with red
 colors = ['black', 'royalblue', 'orangered']
 plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
+plt.rcParams['font.size'] = 12
+plt.rcParams['font.weight'] = 'bold'
+font_size = 14
 
 def msd_div(total_data, select):
     start = 'medoid'
@@ -170,8 +173,10 @@ def cluster_postprocess(link, maxclusts=2, dendro=True):
     clusters = fcluster(link, t=maxclusts, criterion='maxclust')
     dendrogram(link, no_labels=True)
     # add x labels
-    plt.xlabel('Pathways')
-    plt.ylabel('Distance')
     if dendro:
-        plt.savefig('dendrogram.png')
+        plt.xlabel('Pathways', fontsize=font_size, fontweight='bold')
+        plt.ylabel('Distance', fontsize=font_size, fontweight='bold')
+        for axis in ['top','bottom','left','right']:
+            plt.gca().spines[axis].set_linewidth(1.25)
+        plt.savefig('dendrogram.png', dpi=500, bbox_inches='tight', pad_inches=0.1, transparent=True)
     return clusters
