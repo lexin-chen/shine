@@ -7,6 +7,11 @@ from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
 from src.tools.bts import mean_sq_dev, calculate_comp_sim, get_new_index_n
 import random
+from cycler import cycler
+
+# Define a color cycle that starts with red
+colors = ['black', 'royalblue', 'orangered']
+plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
 
 def msd_div(total_data, select):
     start = 'medoid'
@@ -164,7 +169,9 @@ def cluster_postprocess(link, maxclusts=2, dendro=True):
     """Post-processing the SHINE clustering"""
     clusters = fcluster(link, t=maxclusts, criterion='maxclust')
     dendrogram(link, no_labels=True)
-
+    # add x labels
+    plt.xlabel('Pathways')
+    plt.ylabel('Distance')
     if dendro:
-        plt.savefig('dendrogram_test.png')
+        plt.savefig('dendrogram.png')
     return clusters
