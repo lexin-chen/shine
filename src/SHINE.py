@@ -9,13 +9,6 @@ from src.tools.bts import mean_sq_dev, calculate_comp_sim, get_new_index_n
 import random
 from cycler import cycler
 
-# Define a color cycle that starts with red
-colors = ['black', 'royalblue', 'orangered']
-plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
-plt.rcParams['font.size'] = 12
-plt.rcParams['font.weight'] = 'bold'
-font_size = 14
-
 def msd_div(total_data, select):
     start = 'medoid'
     # Numpy array with the data
@@ -170,6 +163,12 @@ def shine(trajs, linkag='ward', metric='intra'):
 
 def cluster_postprocess(link, maxclusts=2, dendro=True):
     """Post-processing the SHINE clustering"""
+    # Define a color cycle that starts with red
+    colors = ['black', 'royalblue', 'orangered']
+    plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
+    plt.rcParams['font.size'] = 12
+    plt.rcParams['font.weight'] = 'bold'
+    font_size = 14
     clusters = fcluster(link, t=maxclusts, criterion='maxclust')
     dendrogram(link, no_labels=True)
     # add x labels
