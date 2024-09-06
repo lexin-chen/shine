@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
 from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
-from src.tools.bts import mean_sq_dev, calculate_comp_sim, get_new_index_n
+from mdance.tools.bts import mean_sq_dev, calculate_comp_sim, get_new_index_n
 import random
 from cycler import cycler
 
@@ -161,9 +161,8 @@ def shine(trajs, linkag='ward', metric='intra'):
     link = linkage(linmat, linkag)
     return link
 
-def cluster_postprocess(link, maxclusts=2, dendro=True):
+def cluster_postprocess(link, maxclusts=2, dendro=True, file_base_name='dendrogram'):
     """Post-processing the SHINE clustering"""
-    # Define a color cycle that starts with red
     colors = ['black', 'royalblue', 'orangered']
     plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
     plt.rcParams['font.size'] = 12
@@ -171,11 +170,11 @@ def cluster_postprocess(link, maxclusts=2, dendro=True):
     font_size = 14
     clusters = fcluster(link, t=maxclusts, criterion='maxclust')
     dendrogram(link, no_labels=True)
-    # add x labels
+
     if dendro:
         plt.xlabel('Pathways', fontsize=font_size, fontweight='bold')
         plt.ylabel('Distance', fontsize=font_size, fontweight='bold')
         for axis in ['top','bottom','left','right']:
             plt.gca().spines[axis].set_linewidth(1.25)
-        plt.savefig('dendrogram.png', dpi=500, bbox_inches='tight', pad_inches=0.1, transparent=True)
+        plt.savefig(f'{file_base_name}.png', dpi=500, bbox_inches='tight', pad_inches=0.1, transparent=True)
     return clusters
